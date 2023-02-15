@@ -2,9 +2,13 @@ package org.nocoder.demo.controller;
 
 import org.nocoder.demo.modal.Client;
 import org.nocoder.demo.repository.ClientRepository;
+import org.nocoder.demo.service.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -18,6 +22,9 @@ public class ClientsController {
     public ClientsController(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
+
+    @Resource
+    private ClientService clientService;
 
     @GetMapping
     public List<Client> getClients() {
@@ -50,4 +57,13 @@ public class ClientsController {
         clientRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/test")
+    public Client test() {
+        Client c = clientService.getClient();
+        System.out.println(c.hashCode());
+        return c;
+    }
+
+
 }
