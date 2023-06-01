@@ -1,5 +1,6 @@
 package org.nocoder.demo.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.nocoder.demo.modal.Client;
 import org.nocoder.demo.repository.ClientRepository;
 import org.nocoder.demo.service.ClientService;
@@ -13,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/clients")
 public class ClientsController {
@@ -48,7 +50,7 @@ public class ClientsController {
         currentClient.setName(client.getName());
         currentClient.setEmail(client.getEmail());
         currentClient = clientRepository.save(client);
-
+        log.debug("updatedClient:{}",currentClient);
         return ResponseEntity.ok(currentClient);
     }
 
@@ -60,9 +62,9 @@ public class ClientsController {
 
     @GetMapping("/test")
     public Client test() {
-        Client c = clientService.getClient();
-        System.out.println(c.hashCode());
-        return c;
+        Client client = clientService.getClient();
+        log.debug("hashCode:{}", client.hashCode());
+        return client;
     }
 
 
